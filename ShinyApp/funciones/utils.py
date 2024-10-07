@@ -30,7 +30,7 @@ def mover_files(origen: str, destino: str, nombre_archivo: str = "modelo.zip"):
         print(f"Archivo movido a: {nueva_ruta}")
 
         # Devolver la nueva ruta del archivo
-        return nueva_ruta
+        return nueva_ruta, True
     else:
         error_msg = f"El archivo {nombre_archivo} no se encontró en la carpeta {origen}."
         print(error_msg)

@@ -101,6 +101,7 @@ def server_desarollo(input, output, session, name_suffix):
         ejectutar_desarrollo_asnyc(click_count_value, mensaje_value, proceso)
         fecha_hora_registrada = global_desarollo.log_fecha_hora()
         global_fecha.set_fecha_desarrollo(fecha_hora_registrada)
+        print(proceso, "ESTOY EN PROCESO HOLA????????????????????????")
         if proceso:
            print("pase a para mover files")
            mover = mover_files(origen, salida)

@@ -10,7 +10,6 @@ values = json_loader.load_json()
 
 
 def create_screen(name_suffix):
-    print("HOLA TENGO VALUES", values)
     # Obtener los valores previos para este name_suffix o usar un valor predeterminado
     #values = previous_values
     return ui.page_fluid(
