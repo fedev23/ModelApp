@@ -10,7 +10,7 @@ from screens.screen_produccion import screenProduccion
 from screens.screen_in_sample import screenInSample
 app_ui = ui.page_fluid(
     ui.include_js(path="script.js", method="link"),
-    ui.include_css(path="app-Bes/screens/project_root/estyle.css", method="link"),
+    ui.include_css(path="ShinyApp/screens/project_root/estyle.css", method="link"),
     ui.navset_hidden(
         ui.nav_panel("Screen_User", screen_User),
         #ui.nav_panel("Screen_1", screen1),
