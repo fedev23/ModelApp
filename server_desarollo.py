@@ -10,6 +10,7 @@ from clases.class_user_proyectName import global_user_proyecto
 from funciones.utils import create_modal_parametros, id_buttons_desa
 
 
+
 def server_desarollo(input, output, session, name_suffix):
     directorio_desarollo = r'/mnt/c/Users/fvillanueva/Desktop/SmartModel_new_version/new_version_new/Automat/datos_entrada'
     screen_instance = ScreenClass(directorio_desarollo,  name_suffix)
@@ -87,26 +88,15 @@ def server_desarollo(input, output, session, name_suffix):
     # Capturamos el evento del botón execute_desarollo y ejecutamos la tarea asincrónica
     @reactive.effect
     @reactive.event(input.execute_desarollo, ignore_none=True)
-    def ejecutar_desarrollo(origen=None, salida=None):
-        # Asignar valores predeterminados si los argumentos no se proporcionan
-        if origen is None:
-            origen = r'/mnt/c/Users/fvillanueva/Desktop/SmartModel_new_version/new_version_new/Automat/datos_salida'
-        if salida is None:
-            salida = r'/mnt/c/Users/fvillanueva/Desktop/SmartModel_new_version/new_version_new/Automat/datos_entrada'
-
+    def ejecutar_desarrollo():
         click_count_value = global_desarollo.click_counter.get()  # Obtener contador
         mensaje_value = global_desarollo.mensaje.get()  # Obtener mensaje actual
-        # Llamar a la tarea asíncrona pasando los valores necesarios
-        ejectutar_desarrollo_asnyc(click_count_value, mensaje_value, global_desarollo.proceso)
+        proceso = global_desarollo.proceso.get()
+    
+        ejectutar_desarrollo_asnyc(click_count_value, mensaje_value, proceso)
         fecha_hora_registrada = global_desarollo.log_fecha_hora()
         global_fecha.set_fecha_desarrollo(fecha_hora_registrada)
-        print(global_desarollo.proceso.get())
-        if global_desarollo.proceso.get():
-           print("pase a para mover files")
-           mover = mover_files(origen, salida)
-           print("movi a", mover)
-           return mover
-            
+        
                
 
     @reactive.effect

@@ -36,7 +36,7 @@ def server_modelos(input, output, session, name_suffix):
         nombre="in_sample",
         mensaje_id= "mensaje_id_in_sample",
         name_file = "", 
-        directorio=r"C:\Users\fvillanueva\Desktop\SmartModel_new_version\new_version_new\Automat",
+        directorio=r"/mnt/c/Users/fvillanueva/Desktop/SmartModel_new_version/new_version_new/Automat",
         script_name="",
         script_path="./Validar_Desa.sh datos_entrada datos_salida" 
     )
@@ -45,9 +45,9 @@ def server_modelos(input, output, session, name_suffix):
     @output
     @render.ui
     def card_in_sample():
-        return  retornar_card(
+        return   retornar_card(
         get_file_name=global_name_manager.get_file_name_desarrollo,
-        get_fecha=global_fecha.get_fecha,
+        get_fecha=global_fecha.get_fecha_in_sample,
         modelo=modelo_in_sample
     )
     
@@ -61,20 +61,24 @@ def server_modelos(input, output, session, name_suffix):
     #https://shiny.posit.co/py/docs/nonblocking.html
     @ui.bind_task_button(button_id="execute_in_sample")
     @reactive.extended_task
-    async def ejectutar_produccion_asnyc():
+    async def ejecutar_in_sample_ascyn(click_count, mensaje, proceso):
         # Llamamos al método de la clase para ejecutar el proceso
-        await modelo_in_sample.ejecutar_proceso_prueba()
+        await modelo_in_sample.ejecutar_proceso_prueba(click_count, mensaje, proceso)
         
     ##Luego utilizo el input del id del boton para llamar ala funcion de arriba y que se ejecute con normalidad
     @reactive.effect
-    @reactive.event(input[f'execute_{modelo_in_sample.nombre}']) 
-    def ejecutar_in_sample():
-        ejectutar_produccion_asnyc()
+    @reactive.event(input.execute_in_sample, ignore_none=True)
+    def ejecutar_in_sample_button():
+        click_count_value = global_desarollo.click_counter.get()  # Obtener contador
+        mensaje_value = global_desarollo.mensaje.get()  # Obtener mensaje actual
+        proceso = global_desarollo.proceso.get()
+        ejecutar_in_sample_ascyn(click_count_value, mensaje_value, proceso)
+        fecha_hora_registrada = modelo_in_sample.log_fecha_hora()
+        global_fecha.set_fecha_in_sample(fecha_hora_registrada)
         
     @reactive.Effect
     @reactive.event(input[f'open_html_{modelo_in_sample.nombre}'])
     def enviar_result():
-        print("entre")
         ui.update_navs("Resultados_nav", selected="in_sample")
         create_navigation_handler(f'open_html_{modelo_in_sample.nombre}', 'Screen_Resultados')
         

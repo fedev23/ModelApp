@@ -1,6 +1,6 @@
 from clases.class_extact_time import global_fecha
 from shiny import reactive, render, ui
-from funciones.utils import create_zip_from_directory, mover_files
+from funciones.utils import  mover_files
 import subprocess
 import datetime
 import asyncio
@@ -83,16 +83,26 @@ class ModeloProceso:
                     print(f"Salida del comando: {stdout}")
                 else:
                     self.mensaje.set(f"Ejecución completada con éxito.")
-                    proces = self.proceso.set(True)
-                    print(proces, "ESTOY EN PROCESO!!!!!")
+                    self.proceso.set(True)
+                    origen = r'/mnt/c/Users/fvillanueva/Desktop/SmartModel_new_version/new_version_new/Automat/datos_salida'
+                    salida = r'/mnt/c/Users/fvillanueva/Desktop/SmartModel_new_version/new_version_new/Automat/datos_entrada'
+                    mover = mover_files(origen, salida)
+                    print("movi a", mover)
+                    
 
-                return stdout, stderr
+                return stdout, stderr 
 
         except Exception as e:
             print(f"Error en la ejecución: {e}")
             self.mensaje.set(f"Error en la ejecución: {str(e)}")
             return None, str(e), 1
-
+        
+    
+    def acualizar_valor(self):
+     if self.proceso.get():
+         return True
+     else:
+         return False
 
     def mostrar_mensaje(self):
         # if self.proceso.get():
